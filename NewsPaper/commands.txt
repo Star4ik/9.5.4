@@ -1,0 +1,53 @@
+from news.models import *
+user_1 = User.objects.create_user('test_user1', 'email@example.com', 'password') 
+user_2 = User.objects.create_user('test_user2', 'email@example.com', 'password')
+author_1 = Author.objects.create(user=user_1)
+author_2 = Author.objects.create(user=user_2)
+new_category_1 = Category.objects.create(category_name="cat1")  
+new_category_2 = Category.objects.create(category_name="cat2")
+new_category_3 = Category.objects.create(category_name="cat3")
+new_category_4 = Category.objects.create(category_name="cat4")
+new_category.save()
+new_post_1 = Post.objects.create(author=author_1, post_type=Post.new, header="test new", text="Lorem ipsum dolor sit amet")  
+new_post_2 = Post.objects.create(author=author_2, header="test article", text="quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.")  
+new_post_3 = Post.objects.create(author=author_2, header="test article-2", text="sunt in culpa qui officia deserunt mollit anim id est laborum.")
+
+new_post_1.post_category.add(new_category_2, new_category_3) 
+new_post_1.save()
+new_post_2.post_category.add(new_category_1, new_category_4) 
+new_post_2.save()
+new_post_3.post_category.add(new_category_2, new_category_1) 
+new_post_3.save()
+
+
+comment_1 = Comment.objects.create(post=new_post_1, user=user_1, text="comm_1")
+comment_2 = Comment.objects.create(post=new_post_3, user=user_2, text="comm_2")
+comment_3 = Comment.objects.create(post=new_post_2, user=user_1, text="comm_3")
+comment_4 = Comment.objects.create(post=new_post_1, user=user_1, text="comm_4")
+
+new_post_1.like()
+new_post_3.like()
+comment_3.like()
+comment_1.like() 
+
+
+author_1.update_rating()
+author_1.rate 
+
+author_2.update_rating()  
+author_2.rate      
+
+best_user = Author.objects.order_by('-rate').values('user__username', 'rate').first()
+best_user 
+
+best_post = Post.objects.order_by('-rate').values('time', 'author__user__username', 'rate', 'header').first() 
+best_post
+
+best_post_preview = Post.objects.order_by('-rate').first()
+best_post_preview.preview()
+
+comments = Comment.objects.filter(post=best_post_preview) 
+comments
+
+
+
