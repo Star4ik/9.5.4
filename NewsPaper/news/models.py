@@ -16,7 +16,7 @@ class Author(models.Model):
         self.save()
 
     def __str__(self) -> str:
-        return Author.objects.filter(pk=self.id).values_list('user__username')[0][0]
+        return f'{self.user}'
 
 
 class Category(models.Model):
@@ -50,6 +50,9 @@ class Post(models.Model):
     def preview(self):
         preview_text = self.text
         return preview_text[0:125] + '...' if len(self.text) > 125 else self.text
+
+    def __str__(self):
+        return self.header.title()
 
 
 class PostCategory(models.Model):

@@ -1,0 +1,26 @@
+{% extends 'flatpages/default.html' %}
+{% load censor_filter %}
+{% block title %}
+News
+{% endblock title %}
+
+{% block content %}
+<h1>Все новости</h1>
+{% if posts %}
+<h1>Общее количество новостей: {{ posts|length }}</h1>
+{% for post in posts reversed %}
+<div class="card">
+  <div class="card-header">
+    {{ post.time|date:'d M Y' }}
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{{post.header}}</h5>
+    <p class="card-text">{{post.text|truncatechars:20}}</p>
+    <a href= "{% url 'post_detail' pk=post.pk %}" class="btn btn-primary">Читать новость</a>
+  </div>
+</div>
+{% endfor %}
+{% else %}
+  <h2>новостей нет!</h2>
+{% endif %}
+{% endblock content %}
