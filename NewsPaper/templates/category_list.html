@@ -6,9 +6,10 @@ News
 
 {% block content %}
 <h1>Все новости</h1>
-{% if posts %}
-<h1>Общее количество новостей: {{ posts|length }}</h1>
-{% for post in posts reversed %}
+{% if is_not_subscriber %}
+<a href= "{% url 'subscribe' post_category.id %}" class="btn btn-primary">Подписаться</a>
+<h1>Общее количество новостей: {{ category_news_list|length }}</h1>
+{% for post in category_news_list reversed %}
 <div class="card">
   <div class="card-header">
     {{ post.time|date:'d M Y' }}
@@ -16,11 +17,7 @@ News
   <div class="card-body">
     <h5 class="card-title">{{post.header}}</h5>
     <p class="card-text">{{post.text|truncatechars:20}}</p>
-      {% for category in post.post_category.all %}
-    <a href= "{% url 'category_list' category.id %}" class="btn btn-primary">{{category}}</a>
-      {% endfor %}
     <a href= "{% url 'post_detail' pk=post.pk %}" class="btn btn-primary">Читать новость</a>
-
   </div>
 </div>
 {% endfor %}
